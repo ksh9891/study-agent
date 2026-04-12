@@ -1,0 +1,12 @@
+{
+  "name": "@study-agent/tests",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@study-agent/engine-core": "workspace:*",
+    "@study-agent/adapter-java": "workspace:*",
+    "@study-agent/pack-spring-core": "workspace:*",
+    "vitest": "^3.1.0"
+  }
+}
