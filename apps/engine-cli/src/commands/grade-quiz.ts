@@ -51,26 +51,30 @@ function matchAnswer(
   correctAnswer: string | string[],
   rules: NormalizationRule[],
 ): boolean {
-  let normalized = userAnswer;
-  let correctNormalized = typeof correctAnswer === "string" ? correctAnswer : correctAnswer[0];
+  const candidates = typeof correctAnswer === "string" ? [correctAnswer] : correctAnswer;
 
-  for (const rule of rules) {
-    if (rule.type === "case_insensitive") {
-      normalized = normalized.toLowerCase();
-      correctNormalized = correctNormalized.toLowerCase();
+  for (const candidate of candidates) {
+    let normalized = userAnswer;
+    let correctNormalized = candidate;
+
+    for (const rule of rules) {
+      if (rule.type === "case_insensitive") {
+        normalized = normalized.toLowerCase();
+        correctNormalized = correctNormalized.toLowerCase();
+      }
+      if (rule.type === "trim_whitespace") {
+        normalized = normalized.trim();
+        correctNormalized = correctNormalized.trim();
+      }
     }
-    if (rule.type === "trim_whitespace") {
-      normalized = normalized.trim();
-      correctNormalized = correctNormalized.trim();
-    }
-  }
 
-  if (normalized === correctNormalized) return true;
+    if (normalized === correctNormalized) return true;
 
-  for (const rule of rules) {
-    if (rule.type === "alias" && rule.aliases) {
-      const aliases = rule.aliases[correctNormalized.toLowerCase()] ?? [];
-      if (aliases.some((a) => a.toLowerCase() === normalized.toLowerCase())) return true;
+    for (const rule of rules) {
+      if (rule.type === "alias" && rule.aliases) {
+        const aliases = rule.aliases[correctNormalized.toLowerCase()] ?? [];
+        if (aliases.some((a) => a.toLowerCase() === normalized.toLowerCase())) return true;
+      }
     }
   }
 

@@ -40,7 +40,8 @@ export class Orchestrator {
     const sessionsPath = join(publicDir, "sessions.json");
     if (!opts?.force && existsSync(sessionsPath)) {
       const existing = JSON.parse(readFileSync(sessionsPath, "utf-8"));
-      const progress = progressStore.load()!;
+      const progress = progressStore.load();
+      if (!progress) throw new Error("PROGRESS_CORRUPTED");
       return {
         planStatus: "reused",
         packId: progress.packId,
@@ -78,6 +79,8 @@ export class Orchestrator {
 
     // Step 5: Instantiate DAG
     const instantiatedDAG = await pack.instantiateDAG({ evidenceMap });
+    // Patch repoContext since the pack interface doesn't receive it
+    instantiatedDAG.repoContext = { repoName: repo.repoName, rootPath: repo.rootPath };
 
     // Step 6: Build sessions
     const sessions = await pack.buildSessions({

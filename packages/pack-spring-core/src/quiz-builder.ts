@@ -3,20 +3,14 @@ import type {
   QuizSpecInternal,
 } from "@study-agent/engine-core";
 
-const SESSION_TO_QUIZ: Record<string, string> = {
-  "spring.ioc.01": "di-01-ioc-bean-metadata.yaml",
-};
+// MVP: Quiz specs are hardcoded inline, matching the YAML files in quiz/.
+// The YAML files serve as the canonical source-of-truth for authoring;
+// a proper YAML parser (e.g. `yaml` npm package) should replace this
+// hardcoded approach when additional quiz files are added.
 
-export function buildSpringQuizSpec(input: {
-  session: StudySessionSpec;
-  exercise?: ExerciseSpecInternal | null;
-}): QuizSpecInternal | null {
-  const quizFile = SESSION_TO_QUIZ[input.session.id];
-  if (!quizFile) return null;
-
-  return {
+const QUIZ_SPECS: Record<string, Omit<QuizSpecInternal, "sessionId">> = {
+  "spring.ioc.01": {
     id: "quiz-di-01",
-    sessionId: input.session.id,
     gradedQuestions: [
       {
         id: "q1",
@@ -75,5 +69,18 @@ export function buildSpringQuizSpec(input: {
       { type: "case_insensitive" },
       { type: "trim_whitespace" },
     ],
+  },
+};
+
+export function buildSpringQuizSpec(input: {
+  session: StudySessionSpec;
+  exercise?: ExerciseSpecInternal | null;
+}): QuizSpecInternal | null {
+  const spec = QUIZ_SPECS[input.session.id];
+  if (!spec) return null;
+
+  return {
+    ...spec,
+    sessionId: input.session.id,
   };
 }

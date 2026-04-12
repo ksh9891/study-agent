@@ -3,7 +3,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { createFixtureCopy, cleanupFixture } from "../helpers/fixture-copy.js";
-import { Orchestrator } from "@study-agent/engine-core";
+import { Orchestrator, ProgressStore } from "@study-agent/engine-core";
 import { adapterJava } from "@study-agent/adapter-java";
 import { packSpringCore } from "@study-agent/pack-spring-core";
 
@@ -76,9 +76,18 @@ describe("Session 1 Full Loop", () => {
     );
     expect(quizInternal.answerKey).toBeDefined();
 
-    // Step 3: Simulate grading (create expected artifacts in submission)
+    // Step 3: Grade exercise — files already exist from scaffold
     const submissionDir = join(repoDir, ".study-agent", "exercises", "spring.ioc.01", "starter");
-    // Files already exist from scaffold, so grade should pass the "files exist" check
+    const internalSpecPath = join(repoDir, ".study-agent-internal", "exercises", "spring.ioc.01", "exercise-spec.internal.json");
+    const internalSpec = JSON.parse(readFileSync(internalSpecPath, "utf-8"));
+    const expectedArtifacts: string[] = internalSpec.expectedArtifacts ?? [];
+    const missingFiles = expectedArtifacts.filter((f: string) => !existsSync(join(submissionDir, f)));
+    expect(missingFiles).toHaveLength(0);
+
+    // Update progress via ProgressStore (simulating grade command)
+    const publicDir = join(repoDir, ".study-agent");
+    const progressStore = new ProgressStore(publicDir);
+    progressStore.updateSessionStatus("spring.ioc.01", "passed", { exerciseScore: 100 });
 
     // Step 4: Grade quiz with correct answers
     const answersFile = join(repoDir, "quiz-answers.json");
@@ -91,6 +100,24 @@ describe("Session 1 Full Loop", () => {
         { questionId: "q4", answer: "singleton" },
       ],
     }));
+
+    // Grade quiz via internal spec
+    const quizInternalSpec = JSON.parse(
+      readFileSync(join(repoDir, ".study-agent-internal", "quiz", "spring.ioc.01", "quiz.internal.json"), "utf-8"),
+    );
+    // Verify correct answers match
+    expect(quizInternalSpec.answerKey.answers.q1).toBe("B");
+    expect(quizInternalSpec.answerKey.answers.q4).toBe("singleton");
+
+    // Update progress with quiz score
+    progressStore.updateSessionStatus("spring.ioc.01", "passed", { quizScore: 100 });
+
+    // Verify progress was updated
+    const updatedProgress = progressStore.load()!;
+    expect(updatedProgress.sessions["spring.ioc.01"].status).toBe("passed");
+    expect(updatedProgress.sessions["spring.ioc.01"].exerciseScore).toBe(100);
+    expect(updatedProgress.sessions["spring.ioc.01"].quizScore).toBe(100);
+    expect(updatedProgress.sessions["spring.ioc.01"].lastAttempt).toBeDefined();
 
     // Step 5: Verify run returns "reused" on second call
     const runResult2 = await engine.run({ rootPath: repoDir, repoName: "sample-spring-project" });
