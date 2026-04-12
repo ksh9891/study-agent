@@ -1,11 +1,11 @@
 ---
 name: pr-review-loop
-description: Create PR, run automated code review, fix issues, and iterate until clean
+description: Create PR, run 5-agent parallel code review with confidence scoring, auto-fix issues, and iterate until clean
 ---
 
 ## Purpose
 
-Automate the PR → Review → Fix → Push → Re-review loop. Dispatches a code-reviewer agent on the branch diff, fixes discovered issues, and iterates until the review passes or a maximum number of iterations is reached.
+Automate the PR → Review → Fix → Push → Re-review loop. Uses 5 parallel review agents for independent analysis, scores each issue for confidence, filters false positives, auto-fixes real issues, and iterates until clean.
 
 ## Argument Rules
 
@@ -28,10 +28,11 @@ Automate the PR → Review → Fix → Push → Re-review loop. Dispatches a cod
 3. Verify clean working tree (`git status --porcelain`)
 4. Determine base branch (default: `main`)
 5. Get the full diff: `git diff <base>...HEAD`
+6. Collect CLAUDE.md files: root `CLAUDE.md` + any `CLAUDE.md` in directories touched by the diff
 
 ### Phase 1: Create or Update PR
 
-1. Check if a PR already exists for this branch: `gh pr view --json number 2>/dev/null`
+1. Check if a PR already exists: `gh pr view --json number 2>/dev/null`
 2. If no PR exists:
    - Push branch: `git push -u origin <branch>`
    - Create PR: `gh pr create --title "<title>" --body "<body>" --draft`
@@ -50,78 +51,123 @@ Set `iteration = 0`, `max_iterations = 3` (or user-specified).
    - Show remaining issues
    - **EXIT loop**
 
-3. **Dispatch code-reviewer agent** with:
-   - The diff (`git diff <base>...HEAD`)
-   - Instructions to report issues as: `{severity, file, line, description, suggestion}`
-   - Focus on: bugs, logic errors, security, spec compliance
-   - Ignore: style nits, naming preferences, minor formatting
+#### Step 2A: 5-Agent Parallel Review
 
-4. **Evaluate review results:**
-   - If no Critical or Important issues → **EXIT loop** (PASS)
-   - If only Minor issues → **EXIT loop** (PASS with notes)
-   - If Critical or Important issues exist → continue to Fix phase
+Dispatch 5 Sonnet agents **in parallel**, each with the diff and CLAUDE.md paths:
 
-5. **Fix phase:**
-   - For each Critical/Important issue:
-     - Read the affected file
-     - Apply the fix
-     - Verify the fix doesn't break tests
-   - After all fixes:
-     - Run full test suite
-     - If tests fail: revert last batch of fixes, report, **EXIT loop**
-     - If tests pass: commit fixes with message `fix: address review feedback (iteration N)`
-     - Push: `git push`
+**Agent 1 — CLAUDE.md Compliance:**
+Read all collected CLAUDE.md files. Check if the PR changes violate any rules.
+Return issues with reason: `"CLAUDE.md adherence"` and quote the specific rule.
 
-6. **Go to Loop start**
+**Agent 2 — Bug Scan (Shallow):**
+Read only the changed lines in the diff. Scan for obvious bugs, logic errors, security issues.
+Do NOT read surrounding context beyond the diff. Focus on large bugs, ignore nitpicks.
+Return issues with reason: `"bug"`.
+
+**Agent 3 — Historical Context:**
+Run `git blame` and `git log` on modified files. Identify bugs visible only with historical context
+(e.g., reverted fix, contradicted assumption, regression).
+Return issues with reason: `"historical git context"`.
+
+**Agent 4 — Previous PR Patterns:**
+Find previous PRs that touched these files (`gh pr list --search "file:..." --state merged`).
+Check comments on those PRs for recurring issues that also apply here.
+Return issues with reason: `"previous PR pattern"`.
+
+**Agent 5 — Code Comment Compliance:**
+Read code comments (TODO, FIXME, NOTE, doc comments) in modified files.
+Check if the PR changes comply with or contradict guidance in those comments.
+Return issues with reason: `"code comment violation"`.
+
+Each agent returns issues as:
+```json
+{ "severity": "Critical|Important|Minor", "file": "path", "line": 42,
+  "description": "what's wrong", "suggestion": "how to fix", "reason": "..." }
+```
+
+#### Step 2B: Confidence Scoring
+
+Merge all issues from the 5 agents. For each unique issue, dispatch a **Haiku agent** (in parallel) that:
+
+1. Takes the issue, the PR diff, and the CLAUDE.md file paths
+2. Scores confidence 0–100:
+   - **0**: False positive. Doesn't hold up to scrutiny, or pre-existing issue.
+   - **25**: Might be real, but unverified. Stylistic issues not explicitly in CLAUDE.md.
+   - **50**: Verified real, but a nitpick or unlikely in practice. Not important relative to the PR.
+   - **75**: Double-checked and very likely real. Will impact functionality, or directly mentioned in CLAUDE.md.
+   - **100**: Confirmed real. Will happen frequently. Evidence directly proves it.
+3. For CLAUDE.md issues: verify the CLAUDE.md actually calls out that specific rule.
+4. Returns: `{ issue, score, reasoning }`
+
+#### Step 2C: Filter and Decide
+
+1. **Discard** all issues with score < 75
+2. Classify remaining:
+   - Score >= 75 with severity Critical/Important → **must fix**
+   - Score >= 75 with severity Minor → **note only** (do not fix)
+3. If no must-fix issues → **EXIT loop** (PASS)
+
+#### Step 2D: Auto-Fix
+
+For each must-fix issue (sorted by file, then line):
+
+1. Read the affected file
+2. Apply the suggested fix
+3. Verify the fix doesn't break tests (quick check on affected package)
+
+After all fixes:
+1. Run full test suite
+2. If tests fail → revert all fixes from this iteration, report, **EXIT loop**
+3. If tests pass → commit: `fix: address review feedback (iteration N)`
+4. Push: `git push`
+
+**Go to Loop start**
 
 ### Phase 3: Completion
 
 After exiting the loop:
 
-1. If PASS:
-   - Mark PR as ready (remove draft): `gh pr ready`
-   - Report: "PR ready for human review. N iterations, all issues resolved."
-2. If max iterations reached:
+1. **PASS (no must-fix issues remain):**
+   - Mark PR as ready: `gh pr ready`
+   - Post summary comment on PR via `gh pr comment`:
+     ```
+     ### Automated Review Complete
+
+     Reviewed in N iteration(s). All high-confidence issues resolved.
+
+     Issues found and fixed: <count>
+     Issues noted (minor): <count>
+     False positives filtered: <count>
+     ```
+   - Report to user: "PR ready for human review."
+
+2. **Max iterations reached:**
    - Keep PR as draft
-   - Report remaining issues
-3. If tests broke during fix:
+   - Post comment listing remaining unresolved issues with scores
+   - Report remaining issues to user
+
+3. **Tests broke during fix:**
    - Keep PR as draft
-   - Report what happened
+   - Report what happened, suggest manual intervention
 
-## Review Agent Instructions
+## False Positive Heuristics
 
-When dispatching the code-reviewer agent, use these instructions:
+These are NOT real issues — instruct all agents to skip:
 
-```
-Review the diff between <base> and HEAD for this PR.
-
-Focus ONLY on:
-- Bugs and logic errors (Critical)
-- Security vulnerabilities (Critical)
-- Spec/requirement violations (Important)
-- Missing error handling at system boundaries (Important)
-
-Do NOT flag:
-- Style preferences
-- Naming conventions (unless misleading)
-- Missing comments/docs
-- Minor formatting
-
-For each issue, report:
-- severity: Critical | Important | Minor
-- file: path
-- line: number
-- description: what's wrong
-- suggestion: how to fix
-
-If no Critical or Important issues: report "APPROVED"
-```
+- Pre-existing issues (code not touched in this PR)
+- Things a linter/typechecker/compiler would catch (imports, types, formatting)
+- General code quality (test coverage, docs) unless explicitly required in CLAUDE.md
+- Issues silenced by lint-ignore comments
+- Functionality changes that are clearly intentional for the PR's purpose
+- Pedantic nitpicks a senior engineer wouldn't flag
 
 ## Prohibitions
 
 - Do NOT run on main/master branch
 - Do NOT force-push
-- Do NOT fix Minor issues (only Critical and Important)
+- Do NOT fix issues scored below 75
+- Do NOT fix Minor-severity issues (note them only)
 - Do NOT exceed max iterations — report remaining issues instead
 - Do NOT skip test verification after fixes
-- Do NOT mark PR as ready if Critical issues remain
+- Do NOT mark PR as ready if Critical issues with score >= 75 remain
+- Do NOT attempt to build/typecheck — CI handles that separately
