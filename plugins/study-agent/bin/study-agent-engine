@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+import { fileURLToPath } from 'node:url';
+import { join, dirname } from 'node:path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const cliEntry = join(__dirname, '..', '..', '..', 'apps', 'engine-cli', 'dist', 'index.js');
+
+import(cliEntry).catch((err) => {
+  console.error(`Failed to load engine CLI: ${err.message}`);
+  process.exit(1);
+});

@@ -1,0 +1,22 @@
+{
+  "name": "@study-agent/engine-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "study-agent-engine": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@study-agent/engine-core": "workspace:*",
+    "@study-agent/adapter-java": "workspace:*",
+    "@study-agent/pack-spring-core": "workspace:*",
+    "commander": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "vitest": "^3.1.0"
+  }
+}

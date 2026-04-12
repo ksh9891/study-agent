@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "0.1",
+  "nodes": [
+    {
+      "id": "spring.ioc.01",
+      "title": "IoC and Bean Metadata",
+      "summary": "Understanding Inversion of Control and how Spring represents bean definitions as metadata before actual objects exist",
+      "difficulty": "beginner",
+      "inclusionPolicy": "required",
+      "stage": "core",
+      "evidenceRules": [
+        { "type": "annotation", "pattern": "@Configuration", "weight": 1.0 },
+        { "type": "annotation", "pattern": "@Bean", "weight": 1.0 },
+        { "type": "annotation", "pattern": "@Component", "weight": 0.8 },
+        { "type": "annotation", "pattern": "@SpringBootApplication", "weight": 0.7 },
+        { "type": "import", "pattern": "org.springframework.context.annotation", "weight": 0.6 }
+      ]
+    },
+    {
+      "id": "spring.di.02",
+      "title": "Bean Registration and BeanDefinition",
+      "summary": "How Spring registers beans internally via BeanDefinition and the role of BeanDefinitionRegistry",
+      "difficulty": "beginner",
+      "inclusionPolicy": "required",
+      "stage": "core",
+      "evidenceRules": [
+        { "type": "annotation", "pattern": "@Bean", "weight": 1.0 },
+        { "type": "annotation", "pattern": "@Configuration", "weight": 0.8 },
+        { "type": "annotation", "pattern": "@ComponentScan", "weight": 0.7 },
+        { "type": "import", "pattern": "org.springframework.beans.factory", "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "spring.di.03",
+      "title": "Bean Creation and Singleton Registry",
+      "summary": "How Spring creates bean instances and manages them in a singleton registry",
+      "difficulty": "intermediate",
+      "inclusionPolicy": "required",
+      "stage": "core",
+      "evidenceRules": [
+        { "type": "annotation", "pattern": "@Bean", "weight": 0.8 },
+        { "type": "annotation", "pattern": "@Scope", "weight": 1.0 },
+        { "type": "class_usage", "pattern": "ApplicationContext", "weight": 0.7 },
+        { "type": "import", "pattern": "org.springframework.context", "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "spring.di.04",
+      "title": "Constructor-Based DI Resolution",
+      "summary": "How Spring resolves constructor dependencies and the DI mechanism",
+      "difficulty": "intermediate",
+      "inclusionPolicy": "required",
+      "stage": "core",
+      "evidenceRules": [
+        { "type": "annotation", "pattern": "@Autowired", "weight": 1.0 },
+        { "type": "annotation", "pattern": "@Service", "weight": 0.6 },
+        { "type": "annotation", "pattern": "@RestController", "weight": 0.6 },
+        { "type": "annotation", "pattern": "@Controller", "weight": 0.6 },
+        { "type": "import", "pattern": "org.springframework.beans.factory.annotation", "weight": 0.5 }
+      ]
+    },
+    {
+      "id": "spring.lifecycle.05",
+      "title": "Lifecycle Hooks and Post Processors",
+      "summary": "Bean lifecycle callbacks and BeanPostProcessor mechanism",
+      "difficulty": "advanced",
+      "inclusionPolicy": "optional",
+      "stage": "advanced",
+      "evidenceRules": [
+        { "type": "annotation", "pattern": "@PostConstruct", "weight": 1.0 },
+        { "type": "annotation", "pattern": "@PreDestroy", "weight": 1.0 },
+        { "type": "class_usage", "pattern": "BeanPostProcessor", "weight": 1.0 },
+        { "type": "inheritance", "pattern": "InitializingBean", "weight": 0.8 }
+      ]
+    },
+    {
+      "id": "spring.aop.06",
+      "title": "Proxy and AOP Basics",
+      "summary": "Why Spring uses proxies and AOP for cross-cutting concerns",
+      "difficulty": "advanced",
+      "inclusionPolicy": "optional",
+      "stage": "advanced",
+      "evidenceRules": [
+        { "type": "annotation", "pattern": "@Aspect", "weight": 1.0 },
+        { "type": "annotation", "pattern": "@Transactional", "weight": 0.8 },
+        { "type": "annotation", "pattern": "@EnableAspectJAutoProxy", "weight": 1.0 },
+        { "type": "import", "pattern": "org.aspectj", "weight": 0.7 }
+      ]
+    }
+  ],
+  "edges": [
+    { "from": "spring.ioc.01", "to": "spring.di.02", "kind": "prerequisite" },
+    { "from": "spring.di.02", "to": "spring.di.03", "kind": "prerequisite" },
+    { "from": "spring.di.03", "to": "spring.di.04", "kind": "prerequisite" },
+    { "from": "spring.di.04", "to": "spring.lifecycle.05", "kind": "prerequisite" },
+    { "from": "spring.lifecycle.05", "to": "spring.aop.06", "kind": "prerequisite" }
+  ]
+}
