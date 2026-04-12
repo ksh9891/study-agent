@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@study-agent/engine-core": "workspace:*",
+    "@study-agent/adapter-java": "workspace:*",
+    "@study-agent/pack-spring-core": "workspace:*",
     "commander": "^13.0.0"
   },
   "devDependencies": {
