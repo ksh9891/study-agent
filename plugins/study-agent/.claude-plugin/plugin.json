@@ -1,0 +1,12 @@
+{
+  "name": "study-agent",
+  "version": "0.1.0",
+  "description": "Turn any codebase into a structured study program with explanation, practice, and mastery checks",
+  "skills": [
+    "skills/run/SKILL.md",
+    "skills/exercise/SKILL.md",
+    "skills/grade/SKILL.md",
+    "skills/quiz/SKILL.md",
+    "skills/progress/SKILL.md"
+  ]
+}
