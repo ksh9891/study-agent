@@ -7,6 +7,7 @@ import { scaffoldCommand } from "./commands/scaffold.js";
 import { gradeCommand } from "./commands/grade.js";
 import { gradeQuizCommand } from "./commands/grade-quiz.js";
 import { progressCommand } from "./commands/progress.js";
+import { nextCommand } from "./commands/next.js";
 
 const program = new Command();
 
@@ -69,6 +70,16 @@ program
   .action(async (opts) => {
     const repoPath = resolveRepoPath(opts.repo);
     console.log(await progressCommand(repoPath));
+  });
+
+program
+  .command("next")
+  .description("Recommend next study session")
+  .requiredOption("--repo <path>", "Path to target repository")
+  .option("--json", "Output as JSON", true)
+  .action(async (opts) => {
+    const repoPath = resolveRepoPath(opts.repo);
+    console.log(await nextCommand(repoPath));
   });
 
 program.parse();
