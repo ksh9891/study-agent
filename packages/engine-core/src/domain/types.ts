@@ -392,7 +392,9 @@ export type SessionStatus = "locked" | "available" | "in_progress" | "passed" | 
 
 export interface SessionProgress {
   status: SessionStatus;
+  exercisePassed?: boolean;
   exerciseScore?: number;
+  quizPassed?: boolean;
   quizScore?: number;
   lastAttempt?: string;
 }

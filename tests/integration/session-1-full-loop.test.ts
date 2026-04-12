@@ -87,7 +87,10 @@ describe("Session 1 Full Loop", () => {
     // Update progress via ProgressStore (simulating grade command)
     const publicDir = join(repoDir, ".study-agent");
     const progressStore = new ProgressStore(publicDir);
-    progressStore.updateSessionStatus("spring.ioc.01", "passed", { exerciseScore: 100 });
+    progressStore.updateSessionStatus("spring.ioc.01", "in_progress", {
+      exercisePassed: true,
+      exerciseScore: 100,
+    });
 
     // Step 4: Grade quiz with correct answers
     const answersFile = join(repoDir, "quiz-answers.json");
@@ -110,12 +113,19 @@ describe("Session 1 Full Loop", () => {
     expect(quizInternalSpec.answerKey.answers.q4).toBe("singleton");
 
     // Update progress with quiz score
-    progressStore.updateSessionStatus("spring.ioc.01", "passed", { quizScore: 100 });
+    progressStore.updateSessionStatus("spring.ioc.01", "passed", {
+      exercisePassed: true,
+      exerciseScore: 100,
+      quizPassed: true,
+      quizScore: 100,
+    });
 
     // Verify progress was updated
     const updatedProgress = progressStore.load()!;
     expect(updatedProgress.sessions["spring.ioc.01"].status).toBe("passed");
+    expect(updatedProgress.sessions["spring.ioc.01"].exercisePassed).toBe(true);
     expect(updatedProgress.sessions["spring.ioc.01"].exerciseScore).toBe(100);
+    expect(updatedProgress.sessions["spring.ioc.01"].quizPassed).toBe(true);
     expect(updatedProgress.sessions["spring.ioc.01"].quizScore).toBe(100);
     expect(updatedProgress.sessions["spring.ioc.01"].lastAttempt).toBeDefined();
 

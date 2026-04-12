@@ -2,7 +2,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { formatSuccess, formatError } from "../helpers/output.js";
 import { ProgressStore } from "@study-agent/engine-core";
-import type { QuizSpecInternal, NormalizationRule } from "@study-agent/engine-core";
+import type { QuizSpecInternal, NormalizationRule, StudySessionSpec } from "@study-agent/engine-core";
 
 export async function gradeQuizCommand(repoPath: string, sessionId: string, answersFile: string): Promise<string> {
   const quizInternalPath = join(repoPath, ".study-agent-internal", "quiz", sessionId, "quiz.internal.json");
@@ -37,13 +37,49 @@ export async function gradeQuizCommand(repoPath: string, sessionId: string, answ
   }
 
   const score = totalWeight > 0 ? Math.round((earnedWeight / totalWeight) * 100) : 0;
-  const passed = score >= quizSpec.passingScore;
+  const quizPassed = score >= quizSpec.passingScore;
 
   const publicDir = join(repoPath, ".study-agent");
   const progressStore = new ProgressStore(publicDir);
-  progressStore.updateSessionStatus(sessionId, passed ? "passed" : "failed", { quizScore: score });
 
-  return formatSuccess("grade-quiz", repoPath, { passed, score, passingScore: quizSpec.passingScore, results });
+  // Update quiz sub-result
+  const currentProgress = progressStore.load();
+  const currentSession = currentProgress?.sessions[sessionId];
+  progressStore.updateSessionStatus(sessionId, "in_progress", {
+    exercisePassed: currentSession?.exercisePassed,
+    exerciseScore: currentSession?.exerciseScore,
+    quizPassed,
+    quizScore: score,
+  });
+
+  const result: Record<string, unknown> = { passed: quizPassed, score, passingScore: quizSpec.passingScore, results };
+
+  // Check if overall session is now passed
+  if (quizPassed) {
+    const sessionsPath = join(publicDir, "sessions.json");
+    if (existsSync(sessionsPath)) {
+      const sessionsData = JSON.parse(readFileSync(sessionsPath, "utf-8"));
+      const sessions: StudySessionSpec[] = sessionsData.sessions;
+      const session = sessions.find((s) => s.id === sessionId);
+
+      if (session?.unlockRule) {
+        const updatedProgress = progressStore.load();
+        const sessionProgress = updatedProgress?.sessions[sessionId];
+        if (sessionProgress && progressStore.isSessionPassed(sessionProgress, session.unlockRule)) {
+          progressStore.updateSessionStatus(sessionId, "passed", {
+            exercisePassed: sessionProgress.exercisePassed,
+            exerciseScore: sessionProgress.exerciseScore,
+            quizPassed: sessionProgress.quizPassed,
+            quizScore: sessionProgress.quizScore,
+          });
+          const unlocked = progressStore.checkAndUnlock(sessions);
+          result.unlockedSessions = unlocked;
+        }
+      }
+    }
+  }
+
+  return formatSuccess("grade-quiz", repoPath, result);
 }
 
 function matchAnswer(

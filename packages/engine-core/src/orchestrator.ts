@@ -42,6 +42,35 @@ export class Orchestrator {
       const existing = JSON.parse(readFileSync(sessionsPath, "utf-8"));
       const progress = progressStore.load();
       if (progress) {
+        // Detect stale: rebuild sessions and compare IDs
+        const langResult = await this.adapterRegistry.detectLanguage(repo);
+        if (langResult) {
+          const codeModelResult = await this.adapterRegistry.buildCodeModel(langResult.adapter, repo);
+          const packResult = await this.packRegistry.selectBestPack({
+            repo,
+            codeModel: codeModelResult.codeModel,
+            capabilities: codeModelResult.capabilities,
+            language: langResult.result,
+          });
+          if (packResult) {
+            const evidenceMap = await packResult.pack.collectEvidence({ repo, codeModel: codeModelResult.codeModel });
+            const dag = await packResult.pack.instantiateDAG({ evidenceMap });
+            const existingIds = (existing.sessions as StudySessionSpec[]).map((s) => s.id);
+            const currentIds = dag.conceptOrder;
+            const isStale = existingIds.length !== currentIds.length || existingIds.some((id, i) => id !== currentIds[i]);
+
+            if (isStale) {
+              return {
+                planStatus: "stale",
+                packId: progress.packId,
+                sessionCount: existing.sessions.length,
+                sessions: existing.sessions,
+                progress,
+              };
+            }
+          }
+        }
+
         return {
           planStatus: "reused",
           packId: progress.packId,
