@@ -1,0 +1,24 @@
+id: ex-di-02
+sessionId: spring.di.02
+title: "Bean Registration and Component Scanning"
+prompt: "Implement a BeanDefinitionRegistry and a ComponentScanner that discovers @Component-annotated classes from a given candidate list"
+templateVariables:
+  packageName: "com.studyagent.exercise"
+starterFiles:
+  - path: "BeanDefinitionRegistry.java"
+    description: "Registry interface for bean definitions"
+  - path: "SimpleBeanDefinitionRegistry.java"
+    description: "Registry implementation"
+  - path: "Component.java"
+    description: "@Component annotation"
+  - path: "ComponentScanner.java"
+    description: "Scans candidate classes for @Component"
+expectedArtifacts:
+  - "BeanDefinitionRegistry.java"
+  - "SimpleBeanDefinitionRegistry.java"
+  - "Component.java"
+  - "ComponentScanner.java"
+hints:
+  - "BeanDefinitionRegistry needs register, get, and getAll methods"
+  - "ComponentScanner.scan() takes Class<?>[] candidates, not a package string"
+  - "Use Class.isAnnotationPresent() to check for @Component"

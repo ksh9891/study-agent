@@ -1,0 +1,16 @@
+package {{packageName}};
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+
+/**
+ * Marks a class as a Spring-managed component.
+ * This is a simplified version of Spring's @Component.
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Component {
+    String value() default "";
+}
