@@ -1,1 +1,7 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.study-agent/
+.study-agent-internal/
+.DS_Store
 .worktrees/
