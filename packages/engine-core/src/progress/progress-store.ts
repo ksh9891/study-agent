@@ -22,10 +22,8 @@ export class ProgressStore {
     const sessionData: Record<string, SessionProgress> = {};
 
     for (let i = 0; i < sessions.length; i++) {
-      const session = sessions[i];
-      const hasUnmetPrereqs = (session.prerequisites ?? []).length > 0;
-      sessionData[session.id] = {
-        status: (i === 0 || !hasUnmetPrereqs) ? "available" : "locked",
+      sessionData[sessions[i].id] = {
+        status: i === 0 ? "available" : "locked",
       };
     }
 

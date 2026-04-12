@@ -41,14 +41,16 @@ export class Orchestrator {
     if (!opts?.force && existsSync(sessionsPath)) {
       const existing = JSON.parse(readFileSync(sessionsPath, "utf-8"));
       const progress = progressStore.load();
-      if (!progress) throw new Error("PROGRESS_CORRUPTED");
-      return {
-        planStatus: "reused",
-        packId: progress.packId,
-        sessionCount: existing.sessions.length,
-        sessions: existing.sessions,
-        progress,
-      };
+      if (progress) {
+        return {
+          planStatus: "reused",
+          packId: progress.packId,
+          sessionCount: existing.sessions.length,
+          sessions: existing.sessions,
+          progress,
+        };
+      }
+      // progress.json missing (interrupted run) — fall through to regenerate
     }
 
     writer.ensureDirs();

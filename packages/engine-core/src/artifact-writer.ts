@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync, copyFileSync, readFileSync, readdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, copyFileSync, readFileSync, readdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import type {
   InstantiatedDAG, StudySessionSpec, ExerciseSpecInternal,
@@ -67,6 +67,7 @@ export class ArtifactWriter {
 
   materializeStarterFiles(sessionId: string, spec: ExerciseSpecInternal): void {
     const starterSrcDir = join(spec.templateBundle, "starter");
+    if (!existsSync(starterSrcDir)) return;
     const targetDir = join(this.publicDir, "exercises", sessionId, "starter");
     mkdirSync(targetDir, { recursive: true });
 
@@ -85,6 +86,7 @@ export class ArtifactWriter {
 
   copyHiddenTests(sessionId: string, spec: ExerciseSpecInternal): void {
     const srcDir = join(spec.templateBundle, "hidden-tests");
+    if (!existsSync(srcDir)) return;
     const targetDir = join(this.internalDir, "exercises", sessionId, "hidden-tests");
     mkdirSync(targetDir, { recursive: true });
 
