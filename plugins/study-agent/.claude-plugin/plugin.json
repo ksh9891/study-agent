@@ -7,6 +7,10 @@
     "skills/exercise/SKILL.md",
     "skills/grade/SKILL.md",
     "skills/quiz/SKILL.md",
-    "skills/progress/SKILL.md"
+    "skills/progress/SKILL.md",
+    "skills/pr-review-loop/SKILL.md"
+  ],
+  "hooks": [
+    "hooks/post-push-review.md"
   ]
 }
