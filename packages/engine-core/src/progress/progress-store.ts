@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
-import type { ProgressData, SessionProgress, SessionStatus, StudySessionSpec } from "../domain/types.js";
+import type { ProgressData, SessionProgress, SessionStatus, StudySessionSpec, UnlockRule } from "../domain/types.js";
 
 export class ProgressStore {
   private filePath: string;
@@ -38,7 +38,16 @@ export class ProgressStore {
     return data;
   }
 
-  updateSessionStatus(sessionId: string, status: SessionStatus, scores?: { exerciseScore?: number; quizScore?: number }): void {
+  updateSessionStatus(
+    sessionId: string,
+    status: SessionStatus,
+    scores?: {
+      exercisePassed?: boolean;
+      exerciseScore?: number;
+      quizPassed?: boolean;
+      quizScore?: number;
+    },
+  ): void {
     const data = this.load();
     if (!data) return;
 
@@ -50,5 +59,48 @@ export class ProgressStore {
     };
 
     this.save(data);
+  }
+
+  isSessionPassed(progress: SessionProgress, unlockRule: UnlockRule): boolean {
+    if (unlockRule.requireExercise && !progress.exercisePassed) return false;
+    if (unlockRule.requireQuiz && !progress.quizPassed) return false;
+    if (unlockRule.minQuizScore != null && (progress.quizScore ?? 0) < unlockRule.minQuizScore) return false;
+    return true;
+  }
+
+  checkAndUnlock(sessions: StudySessionSpec[]): string[] {
+    const data = this.load();
+    if (!data) return [];
+
+    const unlocked: string[] = [];
+
+    for (const session of sessions) {
+      if (data.sessions[session.id]?.status !== "locked") continue;
+      if (!session.unlockRule) continue;
+
+      const prerequisites = session.unlockRule.prerequisites;
+      if (prerequisites.length === 0) continue;
+
+      const allPrereqsMet = prerequisites.every((prereqId) => {
+        const prereqProgress = data.sessions[prereqId];
+        if (!prereqProgress || prereqProgress.status !== "passed") return false;
+
+        const prereqSession = sessions.find((s) => s.id === prereqId);
+        if (!prereqSession?.unlockRule) return prereqProgress.status === "passed";
+
+        return this.isSessionPassed(prereqProgress, prereqSession.unlockRule);
+      });
+
+      if (allPrereqsMet) {
+        data.sessions[session.id].status = "available";
+        unlocked.push(session.id);
+      }
+    }
+
+    if (unlocked.length > 0) {
+      this.save(data);
+    }
+
+    return unlocked;
   }
 }
