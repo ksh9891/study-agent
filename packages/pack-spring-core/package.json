@@ -1,0 +1,17 @@
+{
+  "name": "@study-agent/pack-spring-core",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@study-agent/engine-core": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "^3.1.0"
+  }
+}
