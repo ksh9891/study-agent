@@ -1,0 +1,17 @@
+id: ex-di-01
+sessionId: spring.ioc.01
+title: "Mini IoC Container"
+prompt: "Implement a minimal IoC container that can register and retrieve bean definitions"
+templateVariables:
+  packageName: "com.studyagent.exercise"
+starterFiles:
+  - path: "BeanDefinition.java"
+    description: "Bean metadata class"
+  - path: "Container.java"
+    description: "Simple IoC container"
+expectedArtifacts:
+  - "BeanDefinition.java"
+  - "Container.java"
+hints:
+  - "Think about what metadata a bean needs: name, class type, dependencies"
+  - "The container needs a way to register and look up beans by name"
