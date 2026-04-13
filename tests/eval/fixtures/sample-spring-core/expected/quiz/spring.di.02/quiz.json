@@ -1,0 +1,61 @@
+{
+  "gradedQuestions": [
+    {
+      "choices": [
+        "A) To create bean instances",
+        "B) To store and manage bean definitions before instantiation",
+        "C) To inject dependencies into beans",
+        "D) To handle bean lifecycle callbacks"
+      ],
+      "id": "q1",
+      "prompt": "What is the primary role of BeanDefinitionRegistry in Spring?",
+      "type": "multiple_choice",
+      "weight": 25
+    },
+    {
+      "id": "q2",
+      "prompt": "What does a ComponentScanner do when it encounters a class annotated with @Component?",
+      "type": "short_answer",
+      "weight": 25
+    },
+    {
+      "choices": [
+        "A) They are the same thing",
+        "B) Registration stores metadata (BeanDefinition), instantiation creates the actual object",
+        "C) Registration creates objects, instantiation stores metadata",
+        "D) Registration happens at runtime, instantiation at compile time"
+      ],
+      "id": "q3",
+      "prompt": "What is the key difference between bean registration and bean instantiation?",
+      "type": "multiple_choice",
+      "weight": 25
+    },
+    {
+      "id": "q4",
+      "prompt": "In our exercise, ComponentScanner.scan() takes an explicit Class[] list instead of scanning a package. What is the practical reason for this simplification?",
+      "type": "short_answer",
+      "weight": 25
+    }
+  ],
+  "id": "quiz-di-02",
+  "passingScore": 60,
+  "reflectionQuestions": [
+    {
+      "expectedPoints": [
+        "The container needs to know all beans before creating any, so it can resolve dependencies",
+        "Separation enables lazy initialization, scope management, and circular dependency detection"
+      ],
+      "feedbackHints": [
+        "Think about what happens when Bean A depends on Bean B which depends on Bean C"
+      ],
+      "id": "r1",
+      "prompt": "Why does Spring separate bean registration (storing BeanDefinitions) from bean creation (instantiation)?",
+      "rubric": [
+        "Mentions separation of metadata from actual objects",
+        "Mentions benefits like lazy init, scope control, or dependency ordering"
+      ]
+    }
+  ],
+  "schemaVersion": "0.1",
+  "sessionId": "spring.di.02"
+}
