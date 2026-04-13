@@ -34,8 +34,8 @@ describe("grade outputs (D)", () => {
 
             const tempSub = mkdtempSync(join(tmpdir(), `grade-fail-${sessionId}-`));
             try {
-              const all = readdirSync(submissionSource);
-              // Copy all but the first file to simulate missing artifact
+              const all = readdirSync(submissionSource).sort();
+              // Copy all but the first (alphabetically) file to simulate missing artifact
               for (const f of all.slice(1)) {
                 cpSync(join(submissionSource, f), join(tempSub, f), { recursive: true });
               }
