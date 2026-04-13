@@ -1,0 +1,15 @@
+{
+  "feedback": [
+    "Missing files: BeanDefinition.java"
+  ],
+  "nextAction": "retry",
+  "passed": false,
+  "rubric": [
+    {
+      "criterion": "All expected files present",
+      "message": "Missing: BeanDefinition.java",
+      "passed": false
+    }
+  ],
+  "score": 50
+}

@@ -1,0 +1,47 @@
+{
+  "expectedArtifacts": [
+    "BeanDefinition.java",
+    "Container.java"
+  ],
+  "hints": [
+    {
+      "Think about what metadata a bean needs": "name, class type, dependencies"
+    },
+    "The container needs a way to register and look up beans by name"
+  ],
+  "id": "ex-di-01",
+  "prompt": "Implement a minimal IoC container that can register and retrieve bean definitions",
+  "repoAnchors": [
+    {
+      "description": "annotation: @Configuration",
+      "file": "src/main/java/com/example/AppConfig.java",
+      "lineEnd": 0,
+      "lineStart": 0
+    },
+    {
+      "description": "import: org.springframework.context.annotation.Bean",
+      "file": "src/main/java/com/example/AppConfig.java",
+      "lineEnd": 0,
+      "lineStart": 0
+    },
+    {
+      "description": "import: org.springframework.context.annotation.Configuration",
+      "file": "src/main/java/com/example/AppConfig.java",
+      "lineEnd": 0,
+      "lineStart": 0
+    }
+  ],
+  "schemaVersion": "0.1",
+  "sessionId": "spring.ioc.01",
+  "starterFiles": [
+    {
+      "description": "Bean metadata class",
+      "path": "BeanDefinition.java"
+    },
+    {
+      "description": "Simple IoC container",
+      "path": "Container.java"
+    }
+  ],
+  "title": "Mini IoC Container"
+}

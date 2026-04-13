@@ -1,0 +1,36 @@
+{
+  "adapterId": "@study-agent/adapter-java",
+  "capabilities": {
+    "annotations": true,
+    "callGraph": false,
+    "dependencies": true,
+    "fileIndex": true,
+    "imports": true,
+    "inheritance": true,
+    "references": false,
+    "shallowSymbols": false
+  },
+  "language": {
+    "buildFile": "pom.xml",
+    "buildTool": "maven",
+    "confidence": 0.95,
+    "language": "java"
+  },
+  "matchedPack": {
+    "confidence": 1,
+    "packId": "@study-agent/pack-spring-core",
+    "score": 0.65,
+    "signals": [
+      "@SpringBootApplication in src/main/java/com/example/demo/DemoApplication.java",
+      "import org.springframework.boot.SpringApplication in src/main/java/com/example/demo/DemoApplication.java",
+      "import org.springframework.boot.autoconfigure.SpringBootApplication in src/main/java/com/example/demo/DemoApplication.java",
+      "@Configuration in src/main/java/com/example/demo/config/AppConfig.java",
+      "import org.springframework.context.annotation.Bean in src/main/java/com/example/demo/config/AppConfig.java",
+      "import org.springframework.context.annotation.Configuration in src/main/java/com/example/demo/config/AppConfig.java",
+      "@RestController in src/main/java/com/example/demo/controller/GreetingController.java",
+      "@Service in src/main/java/com/example/demo/service/GreetingService.java",
+      "import org.springframework.stereotype.Service in src/main/java/com/example/demo/service/GreetingService.java"
+    ]
+  },
+  "schemaVersion": "0.1"
+}

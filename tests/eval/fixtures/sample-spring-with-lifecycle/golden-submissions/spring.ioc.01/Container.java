@@ -1,0 +1,14 @@
+package com.studyagent.exercise;
+
+import java.util.Map;
+import java.util.HashMap;
+
+/**
+ * A minimal IoC container that registers and retrieves beans.
+ * TODO: Implement register(BeanDefinition) method
+ * TODO: Implement getBean(String name) method
+ * TODO: Implement instantiation of registered beans
+ */
+public class Container {
+    // TODO: Implement container logic
+}

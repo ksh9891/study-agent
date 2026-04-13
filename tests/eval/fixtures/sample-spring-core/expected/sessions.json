@@ -1,0 +1,352 @@
+{
+  "schemaVersion": "0.1",
+  "sessions": [
+    {
+      "conceptId": "spring.ioc.01",
+      "evidence": [
+        {
+          "description": "annotation: @SpringBootApplication",
+          "file": "src/main/java/com/example/demo/DemoApplication.java",
+          "lineEnd": 0,
+          "lineStart": 0
+        },
+        {
+          "description": "annotation: @Configuration",
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0
+        },
+        {
+          "description": "import: org.springframework.context.annotation.Bean",
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0
+        },
+        {
+          "description": "import: org.springframework.context.annotation.Configuration",
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0
+        }
+      ],
+      "explanationOutline": [
+        {
+          "codeAnchors": [
+            {
+              "description": "annotation: @SpringBootApplication",
+              "file": "src/main/java/com/example/demo/DemoApplication.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            },
+            {
+              "description": "annotation: @Configuration",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "What is IoC and why it matters"
+        },
+        {
+          "codeAnchors": [
+            {
+              "description": "annotation: @SpringBootApplication",
+              "file": "src/main/java/com/example/demo/DemoApplication.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            },
+            {
+              "description": "annotation: @Configuration",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "BeanDefinition as metadata"
+        },
+        {
+          "codeAnchors": [
+            {
+              "description": "annotation: @SpringBootApplication",
+              "file": "src/main/java/com/example/demo/DemoApplication.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            },
+            {
+              "description": "annotation: @Configuration",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "@Configuration and @Bean annotation roles"
+        }
+      ],
+      "id": "spring.ioc.01",
+      "learningGoals": [
+        "Understand what Inversion of Control means",
+        "Understand how Spring represents beans as metadata before instantiation",
+        "Identify @Configuration and @Bean annotations in code"
+      ],
+      "misconceptions": [
+        "IoC is not just dependency injection — DI is one form of IoC",
+        "@Bean does not create a bean immediately — it registers a definition"
+      ],
+      "title": "IoC and Bean Metadata",
+      "unlockRule": {
+        "minQuizScore": 60,
+        "prerequisites": [],
+        "requireExercise": true,
+        "requireQuiz": true
+      }
+    },
+    {
+      "conceptId": "spring.di.02",
+      "evidence": [
+        {
+          "description": "annotation: @Configuration",
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0
+        }
+      ],
+      "explanationOutline": [
+        {
+          "codeAnchors": [
+            {
+              "description": "annotation: @Configuration",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "BeanDefinitionRegistry interface"
+        },
+        {
+          "codeAnchors": [
+            {
+              "description": "annotation: @Configuration",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "Component scanning process"
+        },
+        {
+          "codeAnchors": [
+            {
+              "description": "annotation: @Configuration",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "Registration vs instantiation"
+        }
+      ],
+      "id": "spring.di.02",
+      "learningGoals": [
+        "Understand how Spring registers bean definitions internally",
+        "Understand the role of BeanDefinitionRegistry",
+        "Trace the path from @Component scanning to registered BeanDefinition"
+      ],
+      "misconceptions": [
+        "Component scanning does not create beans — it creates BeanDefinitions",
+        "@ComponentScan only discovers, the registry stores"
+      ],
+      "prerequisites": [
+        "spring.ioc.01"
+      ],
+      "title": "Bean Registration and BeanDefinition",
+      "unlockRule": {
+        "minQuizScore": 60,
+        "prerequisites": [
+          "spring.ioc.01"
+        ],
+        "requireExercise": true,
+        "requireQuiz": true
+      }
+    },
+    {
+      "conceptId": "spring.di.03",
+      "evidence": [
+        {
+          "description": "import: org.springframework.context.annotation.Bean",
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0
+        },
+        {
+          "description": "import: org.springframework.context.annotation.Configuration",
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0
+        }
+      ],
+      "explanationOutline": [
+        {
+          "codeAnchors": [
+            {
+              "description": "import: org.springframework.context.annotation.Bean",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            },
+            {
+              "description": "import: org.springframework.context.annotation.Configuration",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "Bean instantiation"
+        },
+        {
+          "codeAnchors": [
+            {
+              "description": "import: org.springframework.context.annotation.Bean",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            },
+            {
+              "description": "import: org.springframework.context.annotation.Configuration",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "Singleton scope"
+        },
+        {
+          "codeAnchors": [
+            {
+              "description": "import: org.springframework.context.annotation.Bean",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            },
+            {
+              "description": "import: org.springframework.context.annotation.Configuration",
+              "file": "src/main/java/com/example/demo/config/AppConfig.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "DefaultSingletonBeanRegistry"
+        }
+      ],
+      "id": "spring.di.03",
+      "learningGoals": [
+        "Understand how Spring creates bean instances from definitions",
+        "Understand the singleton registry pattern"
+      ],
+      "misconceptions": [
+        "Singleton in Spring is per-container, not per-JVM"
+      ],
+      "prerequisites": [
+        "spring.di.02"
+      ],
+      "title": "Bean Creation and Singleton Registry",
+      "unlockRule": {
+        "minQuizScore": 60,
+        "prerequisites": [
+          "spring.di.02"
+        ],
+        "requireExercise": true,
+        "requireQuiz": true
+      }
+    },
+    {
+      "conceptId": "spring.di.04",
+      "evidence": [
+        {
+          "description": "annotation: @RestController",
+          "file": "src/main/java/com/example/demo/controller/GreetingController.java",
+          "lineEnd": 0,
+          "lineStart": 0
+        },
+        {
+          "description": "annotation: @Service",
+          "file": "src/main/java/com/example/demo/service/GreetingService.java",
+          "lineEnd": 0,
+          "lineStart": 0
+        }
+      ],
+      "explanationOutline": [
+        {
+          "codeAnchors": [
+            {
+              "description": "annotation: @RestController",
+              "file": "src/main/java/com/example/demo/controller/GreetingController.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            },
+            {
+              "description": "annotation: @Service",
+              "file": "src/main/java/com/example/demo/service/GreetingService.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "Constructor injection"
+        },
+        {
+          "codeAnchors": [
+            {
+              "description": "annotation: @RestController",
+              "file": "src/main/java/com/example/demo/controller/GreetingController.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            },
+            {
+              "description": "annotation: @Service",
+              "file": "src/main/java/com/example/demo/service/GreetingService.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "Dependency resolution"
+        },
+        {
+          "codeAnchors": [
+            {
+              "description": "annotation: @RestController",
+              "file": "src/main/java/com/example/demo/controller/GreetingController.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            },
+            {
+              "description": "annotation: @Service",
+              "file": "src/main/java/com/example/demo/service/GreetingService.java",
+              "lineEnd": 0,
+              "lineStart": 0
+            }
+          ],
+          "topic": "@Autowired behavior"
+        }
+      ],
+      "id": "spring.di.04",
+      "learningGoals": [
+        "Understand constructor-based dependency injection",
+        "Understand how Spring resolves constructor parameters"
+      ],
+      "misconceptions": [
+        "@Autowired is optional on single-constructor beans since Spring 4.3"
+      ],
+      "prerequisites": [
+        "spring.di.03"
+      ],
+      "title": "Constructor-Based DI Resolution",
+      "unlockRule": {
+        "minQuizScore": 60,
+        "prerequisites": [
+          "spring.di.03"
+        ],
+        "requireExercise": true,
+        "requireQuiz": true
+      }
+    }
+  ]
+}

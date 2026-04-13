@@ -1,0 +1,9 @@
+package com.studyagent.exercise;
+
+/**
+ * Registry for storing and retrieving BeanDefinitions.
+ * TODO: Define register, get, and getAll methods.
+ */
+public interface BeanDefinitionRegistry {
+    // TODO: Define the interface
+}

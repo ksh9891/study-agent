@@ -1,0 +1,38 @@
+{
+  "adapterId": "@study-agent/adapter-java",
+  "capabilities": {
+    "annotations": true,
+    "callGraph": false,
+    "dependencies": true,
+    "fileIndex": true,
+    "imports": true,
+    "inheritance": true,
+    "references": false,
+    "shallowSymbols": false
+  },
+  "language": {
+    "buildFile": "pom.xml",
+    "buildTool": "maven",
+    "confidence": 0.95,
+    "language": "java"
+  },
+  "matchedPack": {
+    "confidence": 1,
+    "packId": "@study-agent/pack-spring-core",
+    "score": 0.75,
+    "signals": [
+      "@Configuration in src/main/java/com/example/AppConfig.java",
+      "import org.springframework.context.annotation.Bean in src/main/java/com/example/AppConfig.java",
+      "import org.springframework.context.annotation.Configuration in src/main/java/com/example/AppConfig.java",
+      "@Component in src/main/java/com/example/CacheWarmer.java",
+      "import org.springframework.stereotype.Component in src/main/java/com/example/CacheWarmer.java",
+      "@Component in src/main/java/com/example/MetricsPostProcessor.java",
+      "import org.springframework.beans.factory.config.BeanPostProcessor in src/main/java/com/example/MetricsPostProcessor.java",
+      "import org.springframework.stereotype.Component in src/main/java/com/example/MetricsPostProcessor.java",
+      "@Service in src/main/java/com/example/UserService.java",
+      "import org.springframework.beans.factory.annotation.Autowired in src/main/java/com/example/UserService.java",
+      "import org.springframework.stereotype.Service in src/main/java/com/example/UserService.java"
+    ]
+  },
+  "schemaVersion": "0.1"
+}

@@ -1,0 +1,44 @@
+{
+  "expectedArtifacts": [
+    "BeanDefinitionRegistry.java",
+    "SimpleBeanDefinitionRegistry.java",
+    "Component.java",
+    "ComponentScanner.java"
+  ],
+  "hints": [
+    "BeanDefinitionRegistry needs register, get, and getAll methods",
+    "ComponentScanner.scan() takes Class<?>[] candidates, not a package string",
+    "Use Class.isAnnotationPresent() to check for @Component"
+  ],
+  "id": "ex-di-02",
+  "prompt": "Implement a BeanDefinitionRegistry and a ComponentScanner that discovers @Component-annotated classes from a given candidate list",
+  "repoAnchors": [
+    {
+      "description": "annotation: @Configuration",
+      "file": "src/main/java/com/example/demo/config/AppConfig.java",
+      "lineEnd": 0,
+      "lineStart": 0
+    }
+  ],
+  "schemaVersion": "0.1",
+  "sessionId": "spring.di.02",
+  "starterFiles": [
+    {
+      "description": "Registry interface for bean definitions",
+      "path": "BeanDefinitionRegistry.java"
+    },
+    {
+      "description": "Registry implementation",
+      "path": "SimpleBeanDefinitionRegistry.java"
+    },
+    {
+      "description": "@Component annotation",
+      "path": "Component.java"
+    },
+    {
+      "description": "Scans candidate classes for @Component",
+      "path": "ComponentScanner.java"
+    }
+  ],
+  "title": "Bean Registration and Component Scanning"
+}
