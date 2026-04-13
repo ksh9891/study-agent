@@ -1,0 +1,119 @@
+{
+  "conceptOrder": [
+    "spring.ioc.01",
+    "spring.di.02",
+    "spring.di.03",
+    "spring.di.04"
+  ],
+  "excludedConcepts": [
+    {
+      "conceptId": "spring.lifecycle.05",
+      "evidenceScore": 0,
+      "exclusionReason": "below_threshold"
+    },
+    {
+      "conceptId": "spring.aop.06",
+      "evidenceScore": 0,
+      "exclusionReason": "below_threshold"
+    }
+  ],
+  "includedConcepts": [
+    {
+      "conceptId": "spring.ioc.01",
+      "evidenceEntries": [
+        {
+          "file": "src/main/java/com/example/demo/DemoApplication.java",
+          "lineEnd": 0,
+          "lineStart": 0,
+          "pattern": "@SpringBootApplication",
+          "ruleType": "annotation"
+        },
+        {
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0,
+          "pattern": "@Configuration",
+          "ruleType": "annotation"
+        },
+        {
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0,
+          "pattern": "org.springframework.context.annotation.Bean",
+          "ruleType": "import"
+        },
+        {
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0,
+          "pattern": "org.springframework.context.annotation.Configuration",
+          "ruleType": "import"
+        }
+      ],
+      "evidenceScore": 4,
+      "inclusionReason": "required"
+    },
+    {
+      "conceptId": "spring.di.02",
+      "evidenceEntries": [
+        {
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0,
+          "pattern": "@Configuration",
+          "ruleType": "annotation"
+        }
+      ],
+      "evidenceScore": 1,
+      "inclusionReason": "required"
+    },
+    {
+      "conceptId": "spring.di.03",
+      "evidenceEntries": [
+        {
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0,
+          "pattern": "org.springframework.context.annotation.Bean",
+          "ruleType": "import"
+        },
+        {
+          "file": "src/main/java/com/example/demo/config/AppConfig.java",
+          "lineEnd": 0,
+          "lineStart": 0,
+          "pattern": "org.springframework.context.annotation.Configuration",
+          "ruleType": "import"
+        }
+      ],
+      "evidenceScore": 2,
+      "inclusionReason": "required"
+    },
+    {
+      "conceptId": "spring.di.04",
+      "evidenceEntries": [
+        {
+          "file": "src/main/java/com/example/demo/controller/GreetingController.java",
+          "lineEnd": 0,
+          "lineStart": 0,
+          "pattern": "@RestController",
+          "ruleType": "annotation"
+        },
+        {
+          "file": "src/main/java/com/example/demo/service/GreetingService.java",
+          "lineEnd": 0,
+          "lineStart": 0,
+          "pattern": "@Service",
+          "ruleType": "annotation"
+        }
+      ],
+      "evidenceScore": 2,
+      "inclusionReason": "required"
+    }
+  ],
+  "packId": "@study-agent/pack-spring-core",
+  "repoContext": {
+    "repoName": "sample-spring-core",
+    "rootPath": "<REPO_ROOT>"
+  },
+  "schemaVersion": "0.1"
+}
