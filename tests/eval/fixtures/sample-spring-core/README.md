@@ -10,7 +10,7 @@
 
 **When to update:**
 - Pack/engine/adapter changes that intentionally alter public artifacts: re-run `UPDATE_GOLDEN=1 pnpm test:eval` and review the diff.
-- New authored session: add session id to `AUTHORED_SESSIONS` in `tests/eval/*.test.ts`, run the materialize script, then `UPDATE_GOLDEN=1 pnpm test:eval`.
+- New authored session: add session id to `AUTHORED_SESSIONS` in `tests/eval/helpers/fixtures-list.ts`, update the `sessions` array in `scripts/materialize-golden-submissions.mjs`, run that script, then `UPDATE_GOLDEN=1 pnpm test:eval`.
 - Template changes inside exercise bundles: regenerate via UPDATE_GOLDEN; the diff in `starter/` shows the textual change.
 
 **Do NOT edit golden files by hand** -- always regenerate through the harness so normalizer is applied consistently.

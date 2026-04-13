@@ -12,9 +12,14 @@ export interface PreparedFixture {
 
 export async function prepareFixture(fixture: FixtureDef): Promise<PreparedFixture> {
   const repoDir = createFixtureCopy(fixture.sourceDir);
-  const engine = new Orchestrator();
-  engine.registerAdapter(adapterJava);
-  engine.registerPack(packSpringCore);
-  await engine.run({ rootPath: repoDir, repoName: fixture.name });
-  return { repoDir, fixture, dispose: () => cleanupFixture(repoDir) };
+  try {
+    const engine = new Orchestrator();
+    engine.registerAdapter(adapterJava);
+    engine.registerPack(packSpringCore);
+    await engine.run({ rootPath: repoDir, repoName: fixture.name });
+    return { repoDir, fixture, dispose: () => cleanupFixture(repoDir) };
+  } catch (err) {
+    cleanupFixture(repoDir);
+    throw err;
+  }
 }
