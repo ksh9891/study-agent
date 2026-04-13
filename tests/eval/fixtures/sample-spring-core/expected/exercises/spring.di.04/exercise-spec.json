@@ -5,9 +5,7 @@
     "ConstructorResolver.java"
   ],
   "hints": [
-    {
-      "Assume single-bean-per-type": "to find a dependency by type, iterate registered BeanDefinitions and find the one whose beanClass matches"
-    },
+    "Assume single-bean-per-type — to find a dependency by type, iterate registered BeanDefinitions and find the one whose beanClass matches",
     "Call BeanFactory.getBean(depName) recursively — that naturally builds leaves first",
     "Class.getDeclaredConstructors()[0] is enough; no @Autowired disambiguation",
     "Make starter code assume public constructors; no setAccessible required"
