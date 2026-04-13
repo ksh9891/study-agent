@@ -10,7 +10,7 @@
 **Intended-current-state notes:**
 - `instantiated-dag.json` MUST include `spring.lifecycle.05` in `includedConcepts`.
 - `instantiated-dag.json` MUST exclude `spring.aop.06` in `excludedConcepts`.
-- `sessions.json` may NOT contain a session for `spring.lifecycle.05` until Slice 3b authors it. The current "DAG included but session absent" state is intentional and captured in golden.
-- When Slice 3b adds a lifecycle session, re-run `UPDATE_GOLDEN=1 pnpm test:eval` and verify the diff shows an ADDED session entry (not a replaced one).
+- `sessions.json` DOES contain a session for `spring.lifecycle.05` because the pack builds a study session for each included concept. Slice 3b will add the authored exercise/quiz bundle for that session; the session skeleton itself already exists.
+- When Slice 3b authors the lifecycle session, re-run `UPDATE_GOLDEN=1 pnpm test:eval` and verify the diff shows a POPULATED session (gaining exercise/quiz refs), not a newly-added one.
 
 **When to update:** same rules as `sample-spring-core/README.md`.
