@@ -6,6 +6,8 @@
     "build": "pnpm -r build",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:eval": "vitest run -c tests/eval/vitest.config.ts",
+    "test:all": "pnpm test && pnpm test:eval",
     "clean": "pnpm -r clean"
   },
   "devDependencies": {
