@@ -1,0 +1,45 @@
+{
+  "expectedArtifacts": [
+    "BeanDefinition.java",
+    "SingletonBeanRegistry.java",
+    "BeanFactory.java"
+  ],
+  "hints": [
+    "SingletonBeanRegistry is just a Map<String, Object> wrapper with register/get/contains",
+    "BeanFactory.getBean(name) checks the singleton registry first; only instantiates on cache miss",
+    "Use Class.getDeclaredConstructor().newInstance() for zero-arg instantiation"
+  ],
+  "id": "ex-di-03",
+  "prompt": "Implement a SingletonBeanRegistry and a BeanFactory that lazily instantiates beans and caches them as singletons",
+  "repoAnchors": [
+    {
+      "description": "import: org.springframework.context.annotation.Bean",
+      "file": "src/main/java/com/example/AppConfig.java",
+      "lineEnd": 0,
+      "lineStart": 0
+    },
+    {
+      "description": "import: org.springframework.context.annotation.Configuration",
+      "file": "src/main/java/com/example/AppConfig.java",
+      "lineEnd": 0,
+      "lineStart": 0
+    }
+  ],
+  "schemaVersion": "0.1",
+  "sessionId": "spring.di.03",
+  "starterFiles": [
+    {
+      "description": "Bean metadata (name + class)",
+      "path": "BeanDefinition.java"
+    },
+    {
+      "description": "In-memory map of singleton instances",
+      "path": "SingletonBeanRegistry.java"
+    },
+    {
+      "description": "Registers definitions and returns lazily-created singletons",
+      "path": "BeanFactory.java"
+    }
+  ],
+  "title": "Singleton Bean Registry"
+}

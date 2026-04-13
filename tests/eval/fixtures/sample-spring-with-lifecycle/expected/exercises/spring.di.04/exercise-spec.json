@@ -1,0 +1,48 @@
+{
+  "expectedArtifacts": [
+    "BeanDefinition.java",
+    "BeanFactory.java",
+    "ConstructorResolver.java"
+  ],
+  "hints": [
+    {
+      "Assume single-bean-per-type": "to find a dependency by type, iterate registered BeanDefinitions and find the one whose beanClass matches"
+    },
+    "Call BeanFactory.getBean(depName) recursively — that naturally builds leaves first",
+    "Class.getDeclaredConstructors()[0] is enough; no @Autowired disambiguation",
+    "Make starter code assume public constructors; no setAccessible required"
+  ],
+  "id": "ex-di-04",
+  "prompt": "Extend the BeanFactory with a ConstructorResolver that injects dependencies by inspecting constructor parameter types and recursively resolving them from registered BeanDefinitions",
+  "repoAnchors": [
+    {
+      "description": "annotation: @Service",
+      "file": "src/main/java/com/example/UserService.java",
+      "lineEnd": 0,
+      "lineStart": 0
+    },
+    {
+      "description": "import: org.springframework.beans.factory.annotation.Autowired",
+      "file": "src/main/java/com/example/UserService.java",
+      "lineEnd": 0,
+      "lineStart": 0
+    }
+  ],
+  "schemaVersion": "0.1",
+  "sessionId": "spring.di.04",
+  "starterFiles": [
+    {
+      "description": "Bean metadata (name + class)",
+      "path": "BeanDefinition.java"
+    },
+    {
+      "description": "Registers definitions and delegates to ConstructorResolver",
+      "path": "BeanFactory.java"
+    },
+    {
+      "description": "Resolves constructor arguments by type via BeanFactory.getBean",
+      "path": "ConstructorResolver.java"
+    }
+  ],
+  "title": "Constructor-Based Dependency Injection"
+}
