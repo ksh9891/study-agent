@@ -6,6 +6,7 @@ export interface NormalizeContext {
 
 const ISO_TS = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/;
 const TMP_ROOT = tmpdir();
+const LITERAL_TMP = "/tmp";
 
 export function normalize(value: unknown, ctx: NormalizeContext): unknown {
   if (value === null || value === undefined) return value;
@@ -28,6 +29,9 @@ function normalizeString(s: string, ctx: NormalizeContext): string {
   }
   if (out.includes(TMP_ROOT)) {
     out = out.split(TMP_ROOT).join("<TMP>");
+  }
+  if (out.includes(LITERAL_TMP + "/")) {
+    out = out.split(LITERAL_TMP + "/").join("<TMP>/");
   }
   return out;
 }

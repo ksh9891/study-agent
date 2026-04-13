@@ -23,6 +23,11 @@ describe("normalize", () => {
       .toEqual({ p: "<TMP>/something/else" });
   });
 
+  it("replaces literal /tmp/ prefix with <TMP>", () => {
+    expect(normalize({ p: "/tmp/foo/bar" }, { repoRoot: "/other" }))
+      .toEqual({ p: "<TMP>/foo/bar" });
+  });
+
   it("sorts object keys alphabetically after recursion", () => {
     const result = normalize({ b: 1, a: { z: 1, y: 2 }, c: 3 }, ctx) as Record<string, unknown>;
     expect(Object.keys(result)).toEqual(["a", "b", "c"]);
