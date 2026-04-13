@@ -1,0 +1,15 @@
+{
+  "feedback": [
+    "All expected artifacts found."
+  ],
+  "nextAction": "advance",
+  "passed": true,
+  "rubric": [
+    {
+      "criterion": "All expected files present",
+      "message": "All files present",
+      "passed": true
+    }
+  ],
+  "score": 100
+}

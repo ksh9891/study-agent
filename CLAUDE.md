@@ -4,7 +4,7 @@ Claude Code용 학습 에이전트 **Study Agent**의 모노레포. 사용자가
 
 ## 지금 어디쯤인가
 
-MVP 1.0 (two-session unlock slice) 완료. Slice 3a(eval harness) merge 완료. 현재 진행 방향은 Slice 3b(세션 3~6 authoring). 상세는 `agent_docs/mvp-roadmap.md`.
+MVP 1.0 (two-session unlock slice) 완료. Slice 3a (eval harness), 3b (di-03/di-04 authoring) merge 완료. 4개 core 세션(ioc-01 → di-04)이 관통되며, 다음은 Slice 3c(lifecycle-05, aop-06 authoring, optional/advanced). 상세는 `agent_docs/mvp-roadmap.md`.
 
 ## 모노레포 레이아웃
 

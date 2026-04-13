@@ -10,16 +10,23 @@ import { Orchestrator } from "../packages/engine-core/dist/index.js";
 import { adapterJava } from "../packages/adapter-java/dist/index.js";
 import { packSpringCore } from "../packages/pack-spring-core/dist/index.js";
 import { cpSync, mkdirSync, existsSync, mkdtempSync, rmSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { basename, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO = join(__dirname, "..");
 
+// Mirror tests/helpers/fixture-copy.ts: skip locally-generated engine artifacts
+// so a previous local run against the source project does not pollute the copy.
+const EXCLUDED_DIRS = new Set([".study-agent", ".study-agent-internal"]);
+
 function createFixtureCopy(fixtureDir) {
   const tempDir = mkdtempSync(join(tmpdir(), "study-agent-materialize-"));
-  cpSync(fixtureDir, tempDir, { recursive: true });
+  cpSync(fixtureDir, tempDir, {
+    recursive: true,
+    filter: (src) => !EXCLUDED_DIRS.has(basename(src)),
+  });
   return tempDir;
 }
 
@@ -28,13 +35,13 @@ const FIXTURES = [
     name: "sample-spring-core",
     source: join(REPO, "examples", "sample-spring-project"),
     target: join(REPO, "tests", "eval", "fixtures", "sample-spring-core", "golden-submissions"),
-    sessions: ["spring.ioc.01", "spring.di.02"],
+    sessions: ["spring.ioc.01", "spring.di.02", "spring.di.03", "spring.di.04"],
   },
   {
     name: "sample-spring-with-lifecycle",
     source: join(REPO, "tests", "eval", "fixtures", "sample-spring-with-lifecycle"),
     target: join(REPO, "tests", "eval", "fixtures", "sample-spring-with-lifecycle", "golden-submissions"),
-    sessions: ["spring.ioc.01", "spring.di.02"],
+    sessions: ["spring.ioc.01", "spring.di.02", "spring.di.03", "spring.di.04"],
   },
 ];
 

@@ -17,6 +17,8 @@ const EXERCISES_DIR = existsSync(srcRelative) ? srcRelative : distRelative;
 const SESSION_TO_EXERCISE: Record<string, string> = {
   "spring.ioc.01": "di-01-ioc-bean-metadata",
   "spring.di.02": "di-02-bean-registration",
+  "spring.di.03": "di-03-singleton-registry",
+  "spring.di.04": "di-04-constructor-di",
 };
 
 export function buildSpringExerciseSpec(input: {
@@ -47,6 +49,8 @@ export function buildSpringExerciseSpec(input: {
   const hiddenTestFiles: Record<string, string[]> = {
     "di-01-ioc-bean-metadata": ["ContainerTest.java"],
     "di-02-bean-registration": ["RegistryTest.java"],
+    "di-03-singleton-registry": ["SingletonRegistryTest.java"],
+    "di-04-constructor-di": ["ConstructorResolverTest.java"],
   };
 
   return {

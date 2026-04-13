@@ -20,7 +20,8 @@ Study Agent는 사용자가 제공한 소스코드를 분석해 핵심 개념을
 | 1 — 세션 1 완전 관통 | ✅ merged | `spring.ioc.01` full loop (`run`/`scaffold`/`grade`/`grade-quiz`/`progress`) |
 | 2 — 세션 2 + Unlock = **MVP 1.0** | ✅ merged | `spring.di.02`, `checkAndUnlock()`, `next` 커맨드, `planStatus: stale` |
 | 3a — Eval harness | ✅ merged (PR #3) | `tests/eval/` 골든 파일, 2 fixture, planning/exercises/quiz/grade snapshot |
-| 3b — 세션 3~6 authoring | ⏳ next | 남은 세션 exercise/quiz bundle. Harness 위에서 `UPDATE_GOLDEN=1`로 갱신하며 진행 |
+| 3b — 세션 3~4 authoring | ✅ merged | `spring.di.03`, `spring.di.04` exercise + quiz bundle; AUTHORED_SESSIONS 확장 |
+| 3c — 세션 5~6 authoring | ⏳ next | `spring.lifecycle.05`, `spring.aop.06` optional/advanced 세션 authoring |
 
 상세: 각 slice의 spec은 `docs/superpowers/specs/`, 구현 계획은 `docs/superpowers/plans/`.
 

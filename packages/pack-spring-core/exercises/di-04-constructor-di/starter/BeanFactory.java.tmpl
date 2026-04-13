@@ -1,0 +1,19 @@
+package {{packageName}};
+
+import java.util.Map;
+import java.util.HashMap;
+
+/**
+ * BeanFactory with constructor-based DI.
+ *  - registerBeanDefinition stores metadata
+ *  - getBean(name) returns cached singleton; on cache miss, delegates to ConstructorResolver
+ *    to build constructor arguments (recursively getBean-ing dependencies), instantiates, and caches
+ *  - throws RuntimeException when the name or a dependency type has no matching BeanDefinition
+ */
+public class BeanFactory {
+    // TODO: Implement:
+    //  - Map<String, BeanDefinition> definitions
+    //  - Map<String, Object> singletons
+    //  - findDefinitionByType(Class<?>) : BeanDefinition (search registered definitions)
+    //  - getBean(name): cache → resolver.resolve(this, def) → cache → return
+}

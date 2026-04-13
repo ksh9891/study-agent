@@ -1,0 +1,61 @@
+{
+  "gradedQuestions": [
+    {
+      "choices": [
+        "A) 이름을 키로 이미 생성된 인스턴스를 저장하는 맵 (singleton cache)",
+        "B) BeanDefinition을 저장하는 리스트",
+        "C) ClassLoader 내부 static 필드",
+        "D) ThreadLocal"
+      ],
+      "id": "q1",
+      "prompt": "Spring이 singleton bean을 재생성하지 않도록 보장하는 가장 핵심적인 자료구조는?",
+      "type": "multiple_choice",
+      "weight": 25
+    },
+    {
+      "choices": [
+        "A) 컴파일 에러를 조기에 잡을 수 있다",
+        "B) bean을 실제로 필요할 때까지 생성을 지연할 수 있다 (lazy instantiation)",
+        "C) bean 이름을 중복 등록할 수 있다",
+        "D) JVM 메모리를 덜 사용한다"
+      ],
+      "id": "q2",
+      "prompt": "BeanDefinition과 singleton instance를 분리해서 관리해 얻는 가장 직접적인 이득은?",
+      "type": "multiple_choice",
+      "weight": 25
+    },
+    {
+      "id": "q3",
+      "prompt": "같은 이름으로 getBean(\"foo\")을 두 번 호출했을 때 Spring의 기본 scope에서 돌려받는 두 객체의 관계를 한 단어로: ___",
+      "type": "short_answer",
+      "weight": 25
+    },
+    {
+      "id": "q4",
+      "prompt": "같은 bean을 매번 새 인스턴스로 받고 싶을 때 지정하는 scope 이름은?",
+      "type": "short_answer",
+      "weight": 25
+    }
+  ],
+  "id": "quiz-di-03",
+  "passingScore": 60,
+  "reflectionQuestions": [
+    {
+      "expectedPoints": [
+        "Singleton caching lets dependency consumers share one instance and avoids re-construction",
+        "Managed lifecycle (eager/lazy init, scope) requires the container to own the object"
+      ],
+      "feedbackHints": [
+        "Think about what happens if every @Autowired call created a new object"
+      ],
+      "id": "r1",
+      "prompt": "왜 Spring은 단순 new가 아니라 singleton registry로 bean을 관리할까?",
+      "rubric": [
+        "Mentions lifecycle control or lazy instantiation",
+        "Mentions sharing the same instance across consumers"
+      ]
+    }
+  ],
+  "schemaVersion": "0.1",
+  "sessionId": "spring.di.03"
+}
