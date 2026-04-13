@@ -17,5 +17,9 @@ export const FIXTURES: FixtureDef[] = [
     sourceDir: join(REPO_ROOT, "examples", "sample-spring-project"),
     fixtureRoot: join(REPO_ROOT, "tests", "eval", "fixtures", "sample-spring-core"),
   },
-  // sample-spring-with-lifecycle added in Task 8
+  {
+    name: "sample-spring-with-lifecycle",
+    sourceDir: join(REPO_ROOT, "tests", "eval", "fixtures", "sample-spring-with-lifecycle"),
+    fixtureRoot: join(REPO_ROOT, "tests", "eval", "fixtures", "sample-spring-with-lifecycle"),
+  },
 ];

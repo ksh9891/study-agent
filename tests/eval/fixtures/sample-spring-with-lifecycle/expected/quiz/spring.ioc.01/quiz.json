@@ -1,0 +1,61 @@
+{
+  "gradedQuestions": [
+    {
+      "choices": [
+        "A) To make code run faster",
+        "B) To transfer control of object creation from application code to a framework/container",
+        "C) To invert the order of method calls",
+        "D) To reverse the class hierarchy"
+      ],
+      "id": "q1",
+      "prompt": "What is the primary purpose of Inversion of Control (IoC) in Spring?",
+      "type": "multiple_choice",
+      "weight": 25
+    },
+    {
+      "id": "q2",
+      "prompt": "In Spring, what is the name of the metadata object that describes a bean before it is instantiated?",
+      "type": "short_answer",
+      "weight": 25
+    },
+    {
+      "choices": [
+        "A) @Component",
+        "B) @Configuration",
+        "C) @Service",
+        "D) @Autowired"
+      ],
+      "id": "q3",
+      "prompt": "Which annotation marks a class as a source of bean definitions in Spring?",
+      "type": "multiple_choice",
+      "weight": 25
+    },
+    {
+      "id": "q4",
+      "prompt": "What is the default scope of a Spring bean?",
+      "type": "short_answer",
+      "weight": 25
+    }
+  ],
+  "id": "quiz-di-01",
+  "passingScore": 60,
+  "reflectionQuestions": [
+    {
+      "expectedPoints": [
+        "BeanDefinition allows the container to know about beans before creating them",
+        "Enables lazy initialization, scope management, and dependency resolution"
+      ],
+      "feedbackHints": [
+        "Think about what the container needs to know before it can create a bean"
+      ],
+      "id": "r1",
+      "prompt": "Why does Spring separate bean metadata (BeanDefinition) from actual bean instances?",
+      "rubric": [
+        "Mentions separation of definition from instantiation",
+        "Mentions lazy creation or lifecycle control"
+      ]
+    }
+  ],
+  "schemaVersion": "0.1",
+  "sessionId": "spring.ioc.01"
+}

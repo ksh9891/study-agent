@@ -1,0 +1,15 @@
+{
+  "feedback": [
+    "Missing files: BeanDefinitionRegistry.java"
+  ],
+  "nextAction": "retry",
+  "passed": false,
+  "rubric": [
+    {
+      "criterion": "All expected files present",
+      "message": "Missing: BeanDefinitionRegistry.java",
+      "passed": false
+    }
+  ],
+  "score": 75
+}

@@ -30,6 +30,12 @@ const FIXTURES = [
     target: join(REPO, "tests", "eval", "fixtures", "sample-spring-core", "golden-submissions"),
     sessions: ["spring.ioc.01", "spring.di.02"],
   },
+  {
+    name: "sample-spring-with-lifecycle",
+    source: join(REPO, "tests", "eval", "fixtures", "sample-spring-with-lifecycle"),
+    target: join(REPO, "tests", "eval", "fixtures", "sample-spring-with-lifecycle", "golden-submissions"),
+    sessions: ["spring.ioc.01", "spring.di.02"],
+  },
 ];
 
 for (const f of FIXTURES) {
