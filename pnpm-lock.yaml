@@ -70,6 +70,9 @@ importers:
       '@study-agent/adapter-java':
         specifier: workspace:*
         version: link:../packages/adapter-java
+      '@study-agent/engine-cli':
+        specifier: workspace:*
+        version: link:../apps/engine-cli
       '@study-agent/engine-core':
         specifier: workspace:*
         version: link:../packages/engine-core
