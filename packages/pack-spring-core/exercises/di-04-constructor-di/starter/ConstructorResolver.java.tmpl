@@ -1,0 +1,15 @@
+package {{packageName}};
+
+import java.lang.reflect.Constructor;
+
+/**
+ * Resolves a bean's constructor dependencies by type, using the BeanFactory for lookup.
+ * TODO: Implement resolve(BeanFactory, BeanDefinition) that:
+ *   1. Takes the first declared constructor (getDeclaredConstructors()[0])
+ *   2. For each parameter type, asks BeanFactory for the bean of that type
+ *      (BeanFactory must expose a "find by type" helper that resolves name, then getBean(name))
+ *   3. Invokes constructor.newInstance(args...)
+ */
+public class ConstructorResolver {
+    // TODO: Implement resolve
+}
