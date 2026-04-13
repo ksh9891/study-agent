@@ -11,6 +11,8 @@ export interface FixtureDef {
 
 const REPO_ROOT = join(__dirname, "..", "..", "..");
 
+export const AUTHORED_SESSIONS = ["spring.ioc.01", "spring.di.02"] as const;
+
 export const FIXTURES: FixtureDef[] = [
   {
     name: "sample-spring-core",

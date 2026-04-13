@@ -2,10 +2,8 @@ import { describe, it, beforeAll, afterAll } from "vitest";
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { prepareFixture, type PreparedFixture } from "./helpers/run-fixture.js";
-import { FIXTURES } from "./helpers/fixtures-list.js";
+import { FIXTURES, AUTHORED_SESSIONS } from "./helpers/fixtures-list.js";
 import { assertGoldenEquals } from "./helpers/golden-compare.js";
-
-const AUTHORED_SESSIONS = ["spring.ioc.01", "spring.di.02"] as const;
 
 describe("quiz artifacts (C)", () => {
   for (const fixture of FIXTURES) {

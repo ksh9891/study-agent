@@ -5,10 +5,8 @@ import { tmpdir } from "node:os";
 import { mkdtempSync, rmSync } from "node:fs";
 import { gradeCommand } from "@study-agent/engine-cli";
 import { prepareFixture, type PreparedFixture } from "./helpers/run-fixture.js";
-import { FIXTURES } from "./helpers/fixtures-list.js";
+import { FIXTURES, AUTHORED_SESSIONS } from "./helpers/fixtures-list.js";
 import { assertGoldenEquals } from "./helpers/golden-compare.js";
-
-const AUTHORED_SESSIONS = ["spring.ioc.01", "spring.di.02"] as const;
 
 describe("grade outputs (D)", () => {
   for (const fixture of FIXTURES) {
